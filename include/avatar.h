@@ -4,8 +4,9 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "SDL/SDL.h"
+#include "events.h"
 
-class CAvatar
+class CAvatar : public CEvent
 {
 private:
     bool should_be_running;
@@ -45,7 +46,11 @@ private:
     void OnLoop() {};
     void OnRender();
 
-    void OnEvent(SDL_Event* Event) {};
+    void OnEvent(SDL_Event* Event);
+    void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
+    void OnResize(int w, int h);
+    void OnExpose();
+    void OnExit();
 
     void InitSceneConstants();
     void InitProjectionMatrix();

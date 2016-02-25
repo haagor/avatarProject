@@ -152,3 +152,78 @@ void CAvatar::OnRender()
 
     SDL_GL_SwapBuffers();
 }
+
+void CAvatar::OnEvent(SDL_Event* Event)
+{
+    CEvent::OnEvent(Event);
+}
+
+void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
+{
+    switch(sym)
+    {
+        case SDLK_ESCAPE:
+            OnExit();
+            break;
+        case SDLK_SPACE:
+            InitSceneConstants();
+            needs_rendering = true;
+            break;
+        case SDLK_LEFT:
+            if(mod & KMOD_SHIFT)
+            {
+                world_ry -= SCENE_ROTATION_STEP;
+                if(world_ry < 0)
+                    world_ry += 360;
+            }
+            else
+                camera_tx -= CAMERA_TRANSLATION_STEP;
+            needs_rendering = true;
+            break;
+        case SDLK_RIGHT:
+            // A completer
+            break;
+        case SDLK_DOWN:
+            // A completer
+            break;
+        case SDLK_UP:
+            // A completer
+            break;
+        case SDLK_q:
+            camera_tz -= CAMERA_TRANSLATION_STEP;
+            if(camera_tz < camera_min_tz)
+                camera_tz = camera_min_tz;
+            needs_rendering = true;
+            break;
+        case SDLK_a:
+            camera_tz += CAMERA_TRANSLATION_STEP;
+            needs_rendering = true;
+            break;
+    }
+}
+
+void CAvatar::OnResize(int w, int h)
+{
+    window_width = w;
+    window_height = h;
+
+    SDL_FreeSurface(sdl_pimage);
+    sdl_pimage = SDL_SetVideoMode(window_width, window_height, SDL_DEPTH, SDL_VIDEO_MODE_OPTIONS);
+
+    glViewport(0, 0, window_width, window_height);
+
+    camera_aspect_ratio = ((float)window_width) / ((float)window_height);
+    InitProjectionMatrix();
+
+    needs_rendering = true;
+}
+
+void CAvatar::OnExpose()
+{
+    // A completer
+}
+
+void CAvatar::OnExit()
+{
+    should_be_running = false;
+}
