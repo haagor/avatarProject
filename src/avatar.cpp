@@ -1,11 +1,11 @@
-#include "avatar.h"
-#include "gl_objects.h"
+#include "../include/avatar.h"
+#include "../include/gl_objects.h"
 #include <GL/glew.h>
     #include <GL/gl.h>
     #include <GL/glu.h>
 #include <iostream>
 
-#define SDL_VIDEO_MODE_OPTIONS (SDL_RESIZABLE| SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER /*| SDL_OPENGL*/)
+#define SDL_VIDEO_MODE_OPTIONS (SDL_RESIZABLE| SDL_HWSURFACE | SDL_GL_DOUBLEBUFFER | SDL_OPENGL)
 #define SDL_DEPTH 32
 
 #define SCENE_ROTATION_STEP 5
@@ -95,10 +95,10 @@ bool CAvatar::OnInit()
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,    16);
     SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,    32);
 
-    SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,    8);
-    SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,    8);
-    SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE,    8);
-    SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,    8);
+//    SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,    8);
+//    SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,    8);
+//    SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE,    8);
+//    SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,    8);
 
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,    1);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,    2);
@@ -142,6 +142,7 @@ void CAvatar::OnRender()
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
     glTranslatef(-camera_tx, -camera_ty, -camera_tz);
     glRotatef(world_rx, 1, 0, 0);
     glRotatef(world_ry, 0, 1, 0);
@@ -162,13 +163,19 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 {
     switch(sym)
     {
+
+        /* Quitter l'application */
         case SDLK_ESCAPE:
             OnExit();
             break;
+
+        /* Recentrer la camera */
         case SDLK_SPACE:
             InitSceneConstants();
             needs_rendering = true;
             break;
+
+        /*Deplacer le cube vers la gauche */
         case SDLK_LEFT:
             if(mod & KMOD_SHIFT)
             {
@@ -180,21 +187,55 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
                 camera_tx -= CAMERA_TRANSLATION_STEP;
             needs_rendering = true;
             break;
+
+        /* Deplacer le cube vers la droite */
         case SDLK_RIGHT:
-            // A completer
+            if(mod & KMOD_SHIFT)
+            {
+                world_ry += SCENE_ROTATION_STEP;
+                if(world_ry < 0)
+                    world_ry += 360;
+            }
+            else
+                camera_tx += CAMERA_TRANSLATION_STEP;
+            needs_rendering = true;
             break;
+
+        /* Deplacer le cube vers le bas */
         case SDLK_DOWN:
-            // A completer
+            if(mod & KMOD_SHIFT)
+            {
+                world_rx -= SCENE_ROTATION_STEP;
+                if(world_rx < 0)
+                    world_rx += 360;
+            }
+            else
+                camera_ty += CAMERA_TRANSLATION_STEP;
+            needs_rendering = true;
             break;
+
+        /* Deplacer le cube vers le haut */
         case SDLK_UP:
-            // A completer
+            if(mod & KMOD_SHIFT)
+            {
+                world_rx += SCENE_ROTATION_STEP;
+                if(world_rx < 0)
+                    world_rx += 360;
+            }
+            else
+                camera_ty -= CAMERA_TRANSLATION_STEP;
+            needs_rendering = true;
             break;
+
+        /* Zoom + */
         case SDLK_q:
             camera_tz -= CAMERA_TRANSLATION_STEP;
             if(camera_tz < camera_min_tz)
                 camera_tz = camera_min_tz;
             needs_rendering = true;
             break;
+
+        /* Zoom - */
         case SDLK_a:
             camera_tz += CAMERA_TRANSLATION_STEP;
             needs_rendering = true;

@@ -1,7 +1,7 @@
 #include <GL/glew.h>
     #include <GL/gl.h>
     #include <GL/glu.h>
-#include "events.h"
+#include "../include/events.h"
 
 CEvent::CEvent() {}
 
@@ -9,6 +9,12 @@ CEvent::~CEvent() {}
 
 void CEvent::OnEvent(SDL_Event* Event) {
     switch(Event->type) {
+
+        case SDL_KEYDOWN: {
+            OnKeyDown(Event->key.keysym.sym,Event->key.keysym.mod,Event->key.keysym.unicode);
+            break;
+        }
+
 
         case SDL_QUIT: {
             OnExit();
