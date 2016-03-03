@@ -210,7 +210,7 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
                     world_rx += 360;
             }
             else
-                camera_ty += CAMERA_TRANSLATION_STEP;
+                camera_ty -= CAMERA_TRANSLATION_STEP;
             needs_rendering = true;
             break;
 
@@ -223,7 +223,7 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
                     world_rx += 360;
             }
             else
-                camera_ty -= CAMERA_TRANSLATION_STEP;
+                camera_ty += CAMERA_TRANSLATION_STEP;
             needs_rendering = true;
             break;
 
