@@ -22,9 +22,9 @@ void DrawFrame(float origin_x, float origin_y, float origin_z, float frame_lengt
 
 void DrawCube(float origin_x, float origin_y, float origin_z, float half_side, GLuint texture)
 {
-    glBegin(GL_QUADS);
 
-        glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glBegin(GL_QUADS);
         // front
         glColor3f(0, 1, 0);
 

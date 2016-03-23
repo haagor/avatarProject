@@ -3,7 +3,7 @@
 CSurface::CSurface() {
 }
 
-SDL_Surface* CSurface::OnLoad(char* File) {
+SDL_Surface* CSurface::OnLoad(const char* File) {
     SDL_Surface* Surf_Temp = NULL;
     SDL_Surface* Surf_Return = NULL;
 

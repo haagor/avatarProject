@@ -74,6 +74,7 @@ int CAvatar::OnExecute()
 
 bool CAvatar::OnInit()
 {
+
     char sdl_wdw_pos[] = "SDL_VIDEO_WINDOW_POS";
     char sdl_wdw_ctr[] = "SDL_VIDEO_CENTERED=1";
     putenv(sdl_wdw_pos);
@@ -109,7 +110,9 @@ bool CAvatar::OnInit()
     if(sdl_pimage == NULL)
         return false;
 
-    glClearColor(0, 0, 0, 0);
+    glEnable(GL_TEXTURE_2D);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glViewport(0, 0, window_width, window_height);
 
         camera_aspect_ratio = ((float)window_width) / ((float)window_height);
@@ -127,15 +130,19 @@ bool CAvatar::OnInit()
             return false;
         }
 
-        /*if((Surf_Display = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
+        /*if((Surf_Display = SDL_SetVideoMode(window_width, window_height, SDL_DEPTH, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
             return false;
         }*/
 
         if((Surf_Test = CSurface::OnLoad("/home/user/Documents/SI4/S2/RA/Shared_Avatar/avatarProject/images/pattern.bmp")) == NULL) {
             return false;
         }
-        glEnable(GL_TEXTURE_2D);
-        texture = Load2DTexture(256, 256, 3, Surf_Test);
+
+        // Typical Texture Generation Using Data From The Bitmap
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+
+        texture = Load2DTexture(Surf_Test->w,Surf_Test->h,GL_RGB,Surf_Test->pixels);
 
     return true;
 }
@@ -175,8 +182,6 @@ void CAvatar::OnRender()
     SDL_Flip(Surf_Display);*/
 
     // On affiche Surf_Test
-
-
 
     SDL_GL_SwapBuffers();
 }
