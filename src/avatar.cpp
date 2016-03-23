@@ -18,6 +18,8 @@
 using namespace std;
 
 CAvatar::CAvatar() {
+    Surf_Test = NULL;
+    Surf_Display = NULL;
     should_be_running = true;
     needs_rendering = true;
     window_width = 250;
@@ -117,13 +119,31 @@ bool CAvatar::OnInit()
 
         InitProjectionMatrix();
 
+        if((Surf_Temp = SDL_LoadBMP("")) == NULL) {
+            //Error
+        }
+
+        if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+            return false;
+        }
+
+        /*if((Surf_Display = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
+            return false;
+        }*/
+
+        if((Surf_Test = CSurface::OnLoad("/home/user/Documents/SI4/S2/RA/Shared_Avatar/avatarProject/images/pattern.bmp")) == NULL) {
+            return false;
+        }
+        glEnable(GL_TEXTURE_2D);
+        texture = Load2DTexture(256, 256, 3, Surf_Test);
+
     return true;
 }
 
 void CAvatar::OnCleanup()
 {
-    if(sdl_pimage)
-        SDL_FreeSurface(sdl_pimage);
+    SDL_FreeSurface(Surf_Test);
+    SDL_FreeSurface(Surf_Display);
     SDL_Quit();
 }
 
@@ -149,7 +169,14 @@ void CAvatar::OnRender()
     glMultMatrixf(scaling);
 
     DrawFrame(world_origin_x, world_origin_y, world_origin_z, RDR_FRAME_LENGTH);
-    DrawCube(world_origin_x, world_origin_y, world_origin_z, RDR_CUBE_HALF_SIDE);
+    DrawCube(world_origin_x, world_origin_y, world_origin_z, RDR_CUBE_HALF_SIDE, texture);
+    /*CSurface::OnDraw(Surf_Display, Surf_Test, 0, 0);
+    CSurface::OnDraw(Surf_Display, Surf_Test, 100, 100, 0, 0, 50, 50);
+    SDL_Flip(Surf_Display);*/
+
+    // On affiche Surf_Test
+
+
 
     SDL_GL_SwapBuffers();
 }
