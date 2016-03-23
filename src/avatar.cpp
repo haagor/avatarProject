@@ -111,6 +111,21 @@ bool CAvatar::OnInit()
         return false;
 
     glEnable(GL_TEXTURE_2D);
+    glEnable(GL_LIGHTING);
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_LIGHT0);
+
+    GLfloat light_position[] = {1.0, 1.0, 1.0, 0.0};
+    GLfloat colorBronzeDiff[] = {1.0, 0.0, 0.0, 1.0};
+    GLfloat colorBronzeSpec[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat mat_emission[] = {0.1, 0.1, 0.1, 1.0};
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
+    glMaterialf(GL_FRONT, GL_SHININESS, 50.0);
+    glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         glViewport(0, 0, window_width, window_height);
