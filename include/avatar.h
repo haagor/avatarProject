@@ -5,7 +5,7 @@
 #include <GL/glu.h>
 #include "SDL/SDL.h"
 #include "events.h"
-
+#include "surface.h"
 class CAvatar : public CEvent
 {
 private:
@@ -34,6 +34,12 @@ private:
     float camera_aspect_ratio;
 
     SDL_Surface* sdl_pimage;
+
+    SDL_Surface*    Surf_Display;
+    SDL_Surface*    Surf_Test;
+    SDL_Surface*    Surf_Temp;
+
+    GLuint texture;
 
  public:
     CAvatar();
