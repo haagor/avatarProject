@@ -1,4 +1,4 @@
-#ifndef_SENSOR_H_
+#ifndef _SENSOR_H_
 #define _SENSOR_H_
 
 #include "OpenNI.h"
@@ -9,7 +9,7 @@ enum EActiveStream
     depth_stream1
 };
 
-class CSsensor
+class CSensor
 {
 public:
     openni::Device m_device;

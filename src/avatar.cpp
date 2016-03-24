@@ -149,7 +149,7 @@ bool CAvatar::OnInit()
             return false;
         }*/
 
-        if((Surf_Test = CSurface::OnLoad("/home/user/Documents/SI4/S2/RA/Shared_Avatar/avatarProject/images/pattern.bmp")) == NULL) {
+        if((Surf_Test = CSurface::OnLoad("/home/user/SI4/realAugm/gitAvatar/avatarProject/images/pattern.bmp")) == NULL) {
             return false;
         }
 
