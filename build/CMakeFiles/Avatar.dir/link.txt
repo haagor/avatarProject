@@ -1,0 +1,1 @@
+/usr/bin/c++   -g    CMakeFiles/Avatar.dir/src/main.cpp.o CMakeFiles/Avatar.dir/src/avatar.cpp.o CMakeFiles/Avatar.dir/src/events.cpp.o CMakeFiles/Avatar.dir/src/gl_objects.cpp.o  -o Avatar -rdynamic -Wl,-Bstatic -lSDLmain -Wl,-Bdynamic -lSDL -lpthread -lSDL_image -lGLU -lGLEW -lGL -lglut 

@@ -1,0 +1,1 @@
+/home/user/Documents/SI4/S2/RA/Avatar/build/CMakeFiles/Avatar.dir
