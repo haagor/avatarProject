@@ -21,7 +21,6 @@ public:
 public:
     CSensor();
     ~CSensor();
-
     bool OnInit(bool show_color_stream);
 };
 

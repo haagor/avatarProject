@@ -1,6 +1,9 @@
 #include <iostream>
 #include "../include/OpenNI.h"
 #include "../include/sensor.h"
+#include <OpenNI.h>
+
+
 
 
 bool CSensor::OnInit(bool show_color_stream) {
@@ -32,12 +35,17 @@ bool CSensor::OnInit(bool show_color_stream) {
         return false;
     }
 
-    if (isImageRegistrationModeSupported(m_device)) {
-        m_device.setImageRegistrationMode(openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR);
+    if (m_device.isImageRegistrationModeSupported(openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR)) {
+        if (m_device.setImageRegistrationMode(openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR) != openni::STATUS_OK) {
+            std::cerr<<openni::OpenNI::getExtendedError();
+            return false;
+        }
+    } else {
+        std::cout<<"STREAM NO SUPPORTED"<<std::endl;
     }
-    if (m_depthStream != NULL) {
-        m_device.setDepthColorSyncEnable(true_ou_false);
+    if (m_depthStream.isValid()) {
+        m_device.setDepthColorSyncEnabled(false);
     }
 
-    active_stream = show_color_stream;
+    //active_stream = show_color_stream;
 }
