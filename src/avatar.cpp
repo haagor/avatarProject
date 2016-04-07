@@ -116,7 +116,7 @@ bool CAvatar::OnInit()
     glEnable(GL_LIGHT0);
 
     GLfloat light_position[] = {1.0, 1.0, 1.0, 0.0};
-    GLfloat colorBronzeDiff[] = {1.0, 0.0, 0.0, 1.0};
+    GLfloat colorBronzeDiff[] = {1.0, 1.0, 0.0, 0.0};
     GLfloat colorBronzeSpec[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat mat_emission[] = {0.1, 0.1, 0.1, 1.0};
 
@@ -145,11 +145,7 @@ bool CAvatar::OnInit()
             return false;
         }
 
-        /*if((Surf_Display = SDL_SetVideoMode(window_width, window_height, SDL_DEPTH, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
-            return false;
-        }*/
-
-        if((Surf_Test = CSurface::OnLoad("/home/user/SI4/realAugm/gitAvatar/avatarProject/images/pattern.bmp")) == NULL) {
+        if((Surf_Test = CSurface::OnLoad("/home/user/Documents/SI4/S2/RA/Shared_Avatar/avatarProject/images/Uncolored_Glass.bmp")) == NULL) {
             return false;
         }
 
@@ -157,7 +153,7 @@ bool CAvatar::OnInit()
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 
-        texture = Load2DTexture(Surf_Test->w,Surf_Test->h,GL_RGB,Surf_Test->pixels);
+        texture = Load2DTexture(Surf_Test->w,Surf_Test->h, 4,Surf_Test->pixels);
 
     return true;
 }

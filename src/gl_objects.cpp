@@ -22,12 +22,12 @@ void DrawFrame(float origin_x, float origin_y, float origin_z, float frame_lengt
 
 void DrawCube(float origin_x, float origin_y, float origin_z, float half_side, GLuint texture)
 {
-
     glBindTexture(GL_TEXTURE_2D, texture);
+
+
+    glColor4f(1,1,1,0);
     glBegin(GL_QUADS);
         // front
-        glColor3f(0, 1, 0);
-
         glTexCoord2f(1, 0);
         glVertex3f(origin_x + half_side, origin_y - half_side, origin_z + half_side);
 
@@ -41,7 +41,6 @@ void DrawCube(float origin_x, float origin_y, float origin_z, float half_side, G
         glVertex3f(origin_x - half_side, origin_y - half_side, origin_z + half_side);
 
         // back
-        glColor3f(0, 0.5, 0);
 
         glTexCoord2f(1, 1);
         glVertex3f(origin_x + half_side, origin_y + half_side, origin_z - half_side);
@@ -56,7 +55,6 @@ void DrawCube(float origin_x, float origin_y, float origin_z, float half_side, G
         glVertex3f(origin_x - half_side, origin_y + half_side, origin_z - half_side);
 
         // left
-        glColor3f(0.5, 0, 0);
 
         glTexCoord2f(0, 0);
         glVertex3f(origin_x - half_side, origin_y - half_side, origin_z - half_side);
@@ -71,7 +69,6 @@ void DrawCube(float origin_x, float origin_y, float origin_z, float half_side, G
         glVertex3f(origin_x - half_side, origin_y - half_side, origin_z + half_side);
 
         // right
-        glColor3f(1, 0, 0);
 
         glTexCoord2f(0,1);
         glVertex3f(origin_x + half_side, origin_y + half_side, origin_z - half_side);
@@ -86,7 +83,6 @@ void DrawCube(float origin_x, float origin_y, float origin_z, float half_side, G
         glVertex3f(origin_x + half_side, origin_y - half_side, origin_z - half_side);
 
         // top
-        glColor3f(0, 0, 1);
 
         glTexCoord2f(0, 1);
         glVertex3f(origin_x - half_side, origin_y + half_side, origin_z + half_side);
@@ -100,7 +96,6 @@ void DrawCube(float origin_x, float origin_y, float origin_z, float half_side, G
         glVertex3f(origin_x - half_side, origin_y + half_side, origin_z - half_side);
 
         // bottom
-        glColor3f(0, 0, 0.5);
 
         glTexCoord2f(1, 1);
         glVertex3f(origin_x + half_side, origin_y - half_side, origin_z + half_side);
