@@ -20,8 +20,8 @@ public:
     openni::VideoStream::NewFrameListener* new_frame_listener;
 
 public:
-    CSensor();
-    ~CSensor();
+    CSensor(){};
+    ~CSensor() {};
     bool OnInit(bool show_color_stream);
     bool SetActiveStream(EActiveStream requested_stream);
 };

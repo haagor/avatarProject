@@ -6,6 +6,16 @@
 #include "SDL/SDL.h"
 #include "events.h"
 #include "surface.h"
+#include "sensor.h"
+
+typedef struct floatRGB floatRGB;
+struct floatRGB
+{
+   float r;
+   float g;
+   float b;
+};
+
 class CAvatar : public CEvent
 {
 private:
@@ -33,33 +43,60 @@ private:
     float camera_fovy;
     float camera_aspect_ratio;
 
+    bool ancient_code;
+
     SDL_Surface* sdl_pimage;
 
     SDL_Surface*    Surf_Display;
     SDL_Surface*    Surf_Test;
     SDL_Surface*    Surf_Temp;
 
+    GLuint captured;
     GLuint texture;
 
  public:
+
+    CSensor sensor;
+
+    bool mouse_left_down;
+    bool mouse_right_down;
+
     CAvatar();
     ~CAvatar();
-    int OnExecute();
+    int OnExecute(bool ancient_code);
 
-    bool OnInit();
+    bool OnInit(bool ancient_code);
 
     void OnCleanup();
     void OnLoop() {};
     void OnRender();
 
+    void OnMouseWheel(int, int);
+
+    void OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right,bool Middle);
+
+    virtual void OnLButtonDown(int mX, int mY);
+    virtual void OnLButtonUp(int mX, int mY);
+    virtual void OnRButtonDown(int mX, int mY);
+    virtual void OnRButtonUp(int mX, int mY);
+
     void OnEvent(SDL_Event* Event);
     void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
+    void OnMouseWheel(bool Up, bool Down);
     void OnResize(int w, int h);
     void OnExpose();
     void OnExit();
 
+    float** AccessFrameColor();
+    float* AccessFrameDepth(openni::VideoFrameRef *m_depthFrame);
+
     void InitSceneConstants();
-    void InitProjectionMatrix();
+
+    void SetPerspectiveProjectionMatrix();
+    void SetOrthoProjectionMatrix();
+
+    void DrawDemo();
+    void DrawSensor();
 
 };
 

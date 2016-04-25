@@ -3,9 +3,6 @@
 #include "../include/sensor.h"
 #include <OpenNI.h>
 
-
-
-
 bool CSensor::OnInit(bool show_color_stream) {
     openni::OpenNI::initialize();
     new_frame_listener = NULL;

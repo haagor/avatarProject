@@ -2617,7 +2617,7 @@ private:
 Status VideoStream::create(const Device& device, SensorType sensorType)
 {
 	OniStreamHandle streamHandle;
-	Status rc = (Status)oniDeviceCreateStream(device._getHandle(), (OniSensorType)sensorType, &streamHandle);
+    Status rc = (Status)oniDeviceCreateStream(device._getHandle(), (OniSensorType)sensorType, &streamHandle);
 	if (rc != STATUS_OK)
 	{
 		return rc;

@@ -128,3 +128,7 @@ GLuint Load2DTexture(GLsizei width, GLsizei height, int BytesPerPixel, const GLv
 
     return texture_ID;
 }
+
+void FillWindowWithTexture(GLuint texture_ID){
+
+}
