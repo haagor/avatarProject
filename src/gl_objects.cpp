@@ -130,5 +130,71 @@ GLuint Load2DTexture(GLsizei width, GLsizei height, int BytesPerPixel, const GLv
 }
 
 void FillWindowWithTexture(GLuint texture_ID){
+}
+
+void DrawCanoniqueCube(/*GLuint texture*/)
+{
+    //glBindTexture(GL_TEXTURE_2D, texture);
+    //glColor4f(1,1,1,0);
+    glBegin(GL_QUADS);
+
+    // Front
+    glVertex3f(1, -1, 1);
+    glVertex3f(1, 1, 1);
+    glVertex3f(-1, 1, 1);
+    glVertex3f(-1, -1, 1);
+
+    // Left
+    glVertex3f(-1, -1, -1);
+    glVertex3f(-1, 1, -1);
+    glVertex3f(-1, 1, 1);
+    glVertex3f(-1, -1, 1);
+
+    // Right
+    glVertex3f(1, 1, -1);
+    glVertex3f(1, 1, 1);
+    glVertex3f(1, -1, 1);
+    glVertex3f(1, -1, -1);
+
+    // Back
+    glVertex3f(1, 1, -1);
+    glVertex3f(1, -1, -1);
+    glVertex3f(-1, -1, -1);
+    glVertex3f(-1, 1, -1);
+
+    // Top
+    glVertex3f(-1, 1, 1);
+    glVertex3f(1, 1, 1);
+    glVertex3f(1, 1, -1);
+    glVertex3f(-1, 1, -1);
+
+    // Bottom
+    glVertex3f(1, -1, 1);
+    glVertex3f(-1, -1, 1);
+    glVertex3f(-1, -1, -1);
+    glVertex3f(1, -1, -1);
+
+    glEnd();
+}
+
+void DrawArm()
+{
+    // Bras
+    glScalef(2, 0, 0);
+    glTranslatef(1.5, 0, 0);
+    DrawCanoniqueCube();
+
+    // Avant bras
+    glPushMatrix();
+        glTranslatef(2, -2, 0);
+        glRotatef(90, 1, 0, 0);
+        DrawCanoniqueCube();
+
+        // Main
+        glPushMatrix();
+            glScalef(-2, 0, 0);
+            DrawCanoniqueCube();
+        glPopMatrix();
+    glPopMatrix();
 
 }

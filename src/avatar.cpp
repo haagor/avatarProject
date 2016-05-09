@@ -76,6 +76,7 @@ int CAvatar::OnExecute(bool ancient_code)
 
 bool CAvatar::OnInit(bool ancient_code)
 {
+
     char sdl_wdw_pos[] = "SDL_VIDEO_WINDOW_POS";
     char sdl_wdw_ctr[] = "SDL_VIDEO_CENTERED=1";
     putenv(sdl_wdw_pos);
@@ -154,9 +155,19 @@ bool CAvatar::OnInit(bool ancient_code)
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 
-    texture = Load2DTexture(Surf_Test->w,Surf_Test->h, 4,Surf_Test->pixels);
+    texture = Load2DTexture(Surf_Test->w, Surf_Test->h, 4, Surf_Test->pixels);
 
     //sensor.OnInit(ancient_code);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glViewport(0, 0, window_width, window_height);
+
+    camera_aspect_ratio = ((float)window_width) / ((float)window_height);
+    camera_min_z = 0.1;
+    camera_max_z = 10;
+    camera_fovy = 60;
+
+    SetPerspectiveProjectionMatrix();
 
     return true;
 }
@@ -170,9 +181,10 @@ void CAvatar::OnCleanup()
 
 void CAvatar::OnRender()
 {
-    if(ancient_code)
+    if(ancient_code == 1)
     {
         DrawDemo();
+        //DrawSensor();
     } else
     {
         DrawSensor();
@@ -296,13 +308,13 @@ void CAvatar::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Rig
         if (relX <0)
             camera_tx += CAMERA_TRANSLATION_STEP;
         else if(relX >0)
-             camera_tx -= CAMERA_TRANSLATION_STEP;
+            camera_tx -= CAMERA_TRANSLATION_STEP;
         needs_rendering = true;
 
         if (relY <0)
             camera_ty -= CAMERA_TRANSLATION_STEP;
         else if(relY >0)
-             camera_ty += CAMERA_TRANSLATION_STEP;
+            camera_ty += CAMERA_TRANSLATION_STEP;
         needs_rendering = true;
 
     }
@@ -311,13 +323,13 @@ void CAvatar::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Rig
         if (relX <0)
             world_ry -= SCENE_ROTATION_STEP;
         else if(relX >0)
-             world_ry += SCENE_ROTATION_STEP;
+            world_ry += SCENE_ROTATION_STEP;
         needs_rendering = true;
 
         if (relY <0)
             world_rx -= SCENE_ROTATION_STEP;
         else if(relY >0)
-             world_rx += SCENE_ROTATION_STEP;
+            world_rx += SCENE_ROTATION_STEP;
         needs_rendering = true;
     }
 }
@@ -382,9 +394,10 @@ void CAvatar::DrawDemo() {
     glRotatef(world_ry, 0, 1, 0);
     glMultMatrixf(scaling);
 
-    DrawFrame(world_origin_x, world_origin_y, world_origin_z, RDR_FRAME_LENGTH);
-    DrawCube(world_origin_x, world_origin_y, world_origin_z, RDR_CUBE_HALF_SIDE, texture);
-
+    //DrawFrame(world_origin_x, world_origin_y, world_origin_z, RDR_FRAME_LENGTH);
+    //DrawCube(world_origin_x, world_origin_y, world_origin_z, RDR_CUBE_HALF_SIDE, texture);
+    //DrawCanoniqueCube();
+    DrawArm();
     SDL_GL_SwapBuffers();
 
 }
@@ -408,7 +421,7 @@ float *CAvatar::AccessFrameDepth(openni::VideoFrameRef *m_depthFrame)
 
 void CAvatar::DrawSensor()
 {
-    //const floatRGB* pImageColorFloat;
+    /*    //const floatRGB* pImageColorFloat;
     float **pImageColorFloat;
     const float* pImageDepthFloat;
     openni::VideoFrameRef m_depthFrame;
@@ -462,7 +475,7 @@ void CAvatar::DrawSensor()
         glEnd();
         // vider les buffers
         SDL_GL_SwapBuffers();
-    }
+    }*/
 }
 
 float **CAvatar::AccessFrameColor()
@@ -483,13 +496,17 @@ float **CAvatar::AccessFrameColor()
         pImageColorFloat[i][0]= pImageColor[i].r/255.0;
         pImageColorFloat[i][1]= pImageColor[i].g/255.0;
         pImageColorFloat[i][2]= pImageColor[i].b/255.0;
-        //pImageColorFloat[i] = thib;
-        //std::cout << "valeur de r : "<< thib.r << std::endl;
     }
 
     return pImageColorFloat;
 }
 
+/*
+ *
+ * Warning: USB events thread - failed to set priority. This might cause loss of data...
+    Device.setProperty(5) failed
+ *
+ * */
 
 void CAvatar::SetOrthoProjectionMatrix()
 {
