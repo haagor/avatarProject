@@ -34,11 +34,11 @@ CAvatar::~CAvatar() {}
 
 void CAvatar::InitSceneConstants()
 {
-
+    teta = 0;
     world_rx = 0;
     world_ry = 0;
 
-    camera_min_tz = world_origin_z + CAMERA_Z_OFFSET + 200;
+    camera_min_tz = world_origin_z + CAMERA_Z_OFFSET;
     camera_tx = world_origin_x;
     camera_ty = world_origin_y;
     camera_tz = camera_min_tz;
@@ -261,6 +261,7 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
         }
         else
             camera_ty += CAMERA_TRANSLATION_STEP;
+        teta += 10;
         needs_rendering = true;
         break;
 
@@ -397,7 +398,7 @@ void CAvatar::DrawDemo() {
     //DrawFrame(world_origin_x, world_origin_y, world_origin_z, RDR_FRAME_LENGTH);
     //DrawCube(world_origin_x, world_origin_y, world_origin_z, RDR_CUBE_HALF_SIDE, texture);
     //DrawCanoniqueCube();
-    DrawArm();
+    DrawArm(teta);
     SDL_GL_SwapBuffers();
 
 }

@@ -56,6 +56,8 @@ private:
 
  public:
 
+    int teta;
+
     CSensor sensor;
 
     bool mouse_left_down;
