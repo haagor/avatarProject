@@ -180,19 +180,20 @@ void DrawCanoniqueCube(/*GLuint texture*/)
 void DrawArm()
 {
     // Bras
-    glScalef(2, 0, 0);
+    glScalef(2, 1, 1);
     glTranslatef(1.5, 0, 0);
     DrawCanoniqueCube();
 
     // Avant bras
     glPushMatrix();
-        glTranslatef(2, -2, 0);
+        glTranslatef(2, 0, 0);
         glRotatef(90, 1, 0, 0);
         DrawCanoniqueCube();
 
         // Main
         glPushMatrix();
-            glScalef(-2, 0, 0);
+            glTranslatef(1.5, 0, -0.5);
+            glScalef(0.5, 1, 1);
             DrawCanoniqueCube();
         glPopMatrix();
     glPopMatrix();

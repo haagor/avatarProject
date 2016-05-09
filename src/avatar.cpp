@@ -34,10 +34,11 @@ CAvatar::~CAvatar() {}
 
 void CAvatar::InitSceneConstants()
 {
+
     world_rx = 0;
     world_ry = 0;
 
-    camera_min_tz = world_origin_z + CAMERA_Z_OFFSET;
+    camera_min_tz = world_origin_z + CAMERA_Z_OFFSET + 200;
     camera_tx = world_origin_x;
     camera_ty = world_origin_y;
     camera_tz = camera_min_tz;
@@ -184,7 +185,6 @@ void CAvatar::OnRender()
     if(ancient_code == 1)
     {
         DrawDemo();
-        //DrawSensor();
     } else
     {
         DrawSensor();
@@ -409,7 +409,7 @@ float *CAvatar::AccessFrameDepth(openni::VideoFrameRef *m_depthFrame)
         return NULL;
     openni::DepthPixel* pImage = (openni::DepthPixel*) m_depthFrame->getData();
 
-    int taille= sizeof(pImage)/sizeof(openni::DepthPixel); //vérifier taille!!!!!
+    int taille= sizeof(pImage)/sizeof(openni::DepthPixel);
     float *pImageFloat= new float[taille];
 
     for(int i=0; i<taille; i++ ){
