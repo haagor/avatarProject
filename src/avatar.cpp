@@ -147,7 +147,7 @@ bool CAvatar::OnInit(bool ancient_code)
         return false;
     }
 
-    if((Surf_Test = CSurface::OnLoad("/home/user/Documents/SI4/S2/RA/Shared_Avatar/avatarProject/images/Uncolored_Glass.bmp")) == NULL) {
+    if((Surf_Test = CSurface::OnLoad("/home/user/Documents/SI4/S2/RA/Shared_Avatar/avatarProject/images/cleanmetal.bmp")) == NULL) {
         return false;
     }
 
@@ -420,7 +420,7 @@ void CAvatar::DrawDemo() {
 
     //DrawFrame(world_origin_x, world_origin_y, world_origin_z, RDR_FRAME_LENGTH);
     //DrawCube(world_origin_x, world_origin_y, world_origin_z, RDR_CUBE_HALF_SIDE, texture);
-    DrawArm(teta, phi);
+    DrawArm(teta, phi, texture);
     SDL_GL_SwapBuffers();
 
 }
