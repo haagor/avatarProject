@@ -56,7 +56,7 @@ private:
 
  public:
 
-    int teta;
+    int teta, phi;
 
     CSensor sensor;
 

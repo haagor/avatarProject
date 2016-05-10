@@ -35,6 +35,8 @@ CAvatar::~CAvatar() {}
 void CAvatar::InitSceneConstants()
 {
     teta = 0;
+    phi = 0;
+
     world_rx = 0;
     world_ry = 0;
 
@@ -101,11 +103,6 @@ bool CAvatar::OnInit(bool ancient_code)
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,    16);
     SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,    32);
 
-    //    SDL_GL_SetAttribute(SDL_GL_ACCUM_RED_SIZE,    8);
-    //    SDL_GL_SetAttribute(SDL_GL_ACCUM_GREEN_SIZE,    8);
-    //    SDL_GL_SetAttribute(SDL_GL_ACCUM_BLUE_SIZE,    8);
-    //    SDL_GL_SetAttribute(SDL_GL_ACCUM_ALPHA_SIZE,    8);
-
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,    1);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,    2);
 
@@ -114,7 +111,9 @@ bool CAvatar::OnInit(bool ancient_code)
         return false;
 
     glEnable(GL_TEXTURE_2D);
-    glEnable(GL_LIGHTING);
+
+    // Décommenter pour activer lumière/matière
+    /*glEnable(GL_LIGHTING);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LIGHT0);
 
@@ -128,7 +127,7 @@ bool CAvatar::OnInit(bool ancient_code)
     glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
     glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
     glMaterialf(GL_FRONT, GL_SHININESS, 50.0);
-    glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);
+    glMaterialfv(GL_FRONT, GL_EMISSION, mat_emission);*/
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glViewport(0, 0, window_width, window_height);
@@ -152,7 +151,6 @@ bool CAvatar::OnInit(bool ancient_code)
         return false;
     }
 
-    // Typical Texture Generation Using Data From The Bitmap
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 
@@ -206,13 +204,13 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
         OnExit();
         break;
 
-        /* Recentrer la camera */
+        /* Recentrer la caméra */
     case SDLK_SPACE:
         InitSceneConstants();
         needs_rendering = true;
         break;
 
-        /*Deplacer le cube vers la gauche */
+        /*Deplacer la caméra vers la gauche */
     case SDLK_LEFT:
         if(mod & KMOD_SHIFT)
         {
@@ -225,7 +223,7 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
         needs_rendering = true;
         break;
 
-        /* Deplacer le cube vers la droite */
+        /* Deplacer la caméra vers la droite */
     case SDLK_RIGHT:
         if(mod & KMOD_SHIFT)
         {
@@ -238,7 +236,7 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
         needs_rendering = true;
         break;
 
-        /* Deplacer le cube vers le bas */
+        /* Deplacer la caméra vers le bas */
     case SDLK_DOWN:
         if(mod & KMOD_SHIFT)
         {
@@ -251,7 +249,7 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
         needs_rendering = true;
         break;
 
-        /* Deplacer le cube vers le haut */
+        /* Deplacer la caméra vers le haut */
     case SDLK_UP:
         if(mod & KMOD_SHIFT)
         {
@@ -261,7 +259,6 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
         }
         else
             camera_ty += CAMERA_TRANSLATION_STEP;
-        teta += 10;
         needs_rendering = true;
         break;
 
@@ -279,7 +276,33 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
         needs_rendering = true;
         break;
 
-    case(SDLK_c):
+
+        /* Animer l'avant-bras du bras */
+    case SDLK_r:
+        // Pour un mouvement 'réaliste'
+        if(teta < 90)
+        {
+            teta += 10;
+        }
+        needs_rendering = true;
+        break;
+
+    case SDLK_f:
+        if(teta > 0)
+        {
+            teta -= 10;
+        }
+        needs_rendering = true;
+        break;
+
+        /* Animer la main du bras */
+    case SDLK_t:
+        phi += 10;
+        needs_rendering = true;
+        break;
+
+        /* Alterner entre color et depth */
+    case SDLK_c:
         sensor.active_stream = color_stream;
         InitSceneConstants();
         glMatrixMode(GL_MODELVIEW);
@@ -289,7 +312,7 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
         DrawSensor();
         break;
 
-    case(SDLK_p):
+    case SDLK_p:
         sensor.active_stream = depth_stream1;
         InitSceneConstants();
         glMatrixMode(GL_MODELVIEW);
@@ -301,7 +324,7 @@ void CAvatar::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 }
 
 void CAvatar::OnMouseWheel(int bouton,int dir) {
-    std::cout << bouton << " " << dir <<std::endl;
+    // Pas encore implémenté
 }
 
 void CAvatar::OnMouseMove(int mX, int mY, int relX, int relY, bool Left,bool Right,bool Middle){
@@ -397,8 +420,7 @@ void CAvatar::DrawDemo() {
 
     //DrawFrame(world_origin_x, world_origin_y, world_origin_z, RDR_FRAME_LENGTH);
     //DrawCube(world_origin_x, world_origin_y, world_origin_z, RDR_CUBE_HALF_SIDE, texture);
-    //DrawCanoniqueCube();
-    DrawArm(teta);
+    DrawArm(teta, phi);
     SDL_GL_SwapBuffers();
 
 }
@@ -422,7 +444,7 @@ float *CAvatar::AccessFrameDepth(openni::VideoFrameRef *m_depthFrame)
 
 void CAvatar::DrawSensor()
 {
-    /*    //const floatRGB* pImageColorFloat;
+    //const floatRGB* pImageColorFloat;
     float **pImageColorFloat;
     const float* pImageDepthFloat;
     openni::VideoFrameRef m_depthFrame;
@@ -443,7 +465,6 @@ void CAvatar::DrawSensor()
         //glDeleteTextures(1,(GLuint *)captured);
     }
     else if (sensor.active_stream == depth_stream1){
-        // on croit qu'on va essayer de mettre les textures de profondeur...
         pImageDepthFloat = AccessFrameDepth(&m_depthFrame);
 
 
@@ -466,7 +487,6 @@ void CAvatar::DrawSensor()
                 {
                     if ((x%2 == 0) && (y%2 == 0) && (*pImageDepthFloat != 0) && (*pImageDepthFloat < 2000))
                     {
-                        //convertDepthToWorld(const VideoStream& depthStream, float depthX, float depthY, float depthZ, float* pWorldX, float* pWorldY, float* pWorldZ)
                         openni::CoordinateConverter::convertDepthToWorld(sensor.m_depthStream,
                                                                          (float)x, (float)y, pImageDepthFloat[z], &pWorldX, &pWorldY, &pWorldZ);
                         glColor3f(0.2, 0.4, 0.6);
@@ -474,9 +494,9 @@ void CAvatar::DrawSensor()
                     }
                 }
         glEnd();
-        // vider les buffers
+
         SDL_GL_SwapBuffers();
-    }*/
+    }
 }
 
 float **CAvatar::AccessFrameColor()
@@ -501,13 +521,6 @@ float **CAvatar::AccessFrameColor()
 
     return pImageColorFloat;
 }
-
-/*
- *
- * Warning: USB events thread - failed to set priority. This might cause loss of data...
-    Device.setProperty(5) failed
- *
- * */
 
 void CAvatar::SetOrthoProjectionMatrix()
 {

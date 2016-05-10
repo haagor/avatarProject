@@ -177,7 +177,7 @@ void DrawCanoniqueCube(/*GLuint texture*/)
     glEnd();
 }
 
-void DrawArm(int teta)
+void DrawArm(int teta, int phi)
 {
     // Bras
     glScalef(2, 1, 1);
@@ -187,13 +187,14 @@ void DrawArm(int teta)
     // Avant bras
     glPushMatrix();
         glTranslatef(2, 0, 0);
-        glRotatef(teta, 1, 0, 0);
+        glRotatef(teta, 0, 0, 1);
         DrawCanoniqueCube();
 
         // Main
         glPushMatrix();
             glTranslatef(1.5, 0, -0.5);
-            glScalef(0.5, 1, 1);
+            glRotatef(phi, 1, 0, 0);
+            glScalef(0.5, 1.5, 1);
             DrawCanoniqueCube();
         glPopMatrix();
     glPopMatrix();
